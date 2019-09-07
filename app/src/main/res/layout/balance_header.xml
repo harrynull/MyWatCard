@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="250dp">
+
+    <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/balance_currency_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/primary_text_color" android:textSize="30sp"
+            app:layout_constraintEnd_toStartOf="@+id/balance_dollar_view"
+            app:layout_constraintTop_toTopOf="@+id/balance_dollar_view"
+            tools:text="CA$"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/balance_dollar_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/primary_text_color"
+            android:textSize="80sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" tools:text="1,093"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/balance_cent_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="18dp"
+            android:textColor="@color/primary_text_color"
+            android:textSize="30sp" app:layout_constraintStart_toEndOf="@+id/balance_dollar_view"
+            app:layout_constraintTop_toTopOf="@+id/balance_dollar_view" tools:text="99"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/balance_account_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:textColor="@color/secondary_text_color"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/balance_dollar_view"
+            tools:text="FLEX"/>
+
+    <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/transaction_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/primary_text_color"
+            android:layout_marginBottom="16dp" android:textSize="20sp" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Transactions"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="72dp">
 
-    
+    <ImageView
+            android:id="@+id/transaction_item_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/circle"
+            android:padding="5dp"
+            android:src="@drawable/ic_restaurant_menu_black_24dp"
+            android:tint="@color/secondary_text_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-</android.support.constraint.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/transaction_item_amount"
+            app:layout_constraintStart_toEndOf="@+id/transaction_item_icon"
+            app:layout_constraintTop_toTopOf="@id/transaction_item_icon">
+
+        <TextView
+                android:id="@+id/transaction_item_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="top|start"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/primary_text_color"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="-CAD 2.0000"/>
+
+        <TextView
+                android:id="@+id/transaction_item_time"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text_color"
+                android:gravity="bottom|start"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_item_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="16:36"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+            android:id="@+id/transaction_item_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            android:gravity="end"
+            android:textColor="@color/primary_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="-CA$ 2.00"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
