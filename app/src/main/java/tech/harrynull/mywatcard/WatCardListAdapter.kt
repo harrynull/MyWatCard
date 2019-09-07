@@ -1,28 +1,34 @@
 package tech.harrynull.mywatcard
 
+import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.balance_header.view.*
 import kotlinx.android.synthetic.main.transaction_item.view.*
+import kotlin.math.floor
+import kotlin.math.round
 
-class TransactionListAdapter(private var transactions: List<Transaction>?)
+class WatCardListAdapter(private val context: Context, private val watcard: WatCard)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
-        private val HEADER_VIEW = 1
+        private const val BALANCE_HEADER = 1
 //        private val FOOTER_VIEW = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == HEADER_VIEW)
-            return BalanceHeader(
+        if (viewType == BALANCE_HEADER)
+            return BalanceHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.balance_header,
                     parent,
                     false))
+
         return TransactionHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.transaction_item,
@@ -33,48 +39,52 @@ class TransactionListAdapter(private var transactions: List<Transaction>?)
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == 0) return HEADER_VIEW
+        if (position == 0) return BALANCE_HEADER
 //        if (position == itemCount - 1) return FOOTER_VIEW
         return super.getItemViewType(position)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is TransactionHolder) {
-            holder.bind(transactions!![position - 1])
-        } else if (holder is BalanceHeader) {
-            holder.bind()
-        } else {
-            //
+        when (holder) {
+            is TransactionHolder -> holder.bind(watcard.transactions!![position - 1])
+            is BalanceHolder -> holder.bind(watcard.accounts!![0])
+            else -> {
+                //
+            }
         }
     }
 
-    override fun getItemCount(): Int = (transactions?.size ?: -1) + 1
+    override fun getItemCount(): Int = (watcard.transactions?.size ?: 0) + 1
 
     inner class TransactionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        private val transactionAccountView: TextView = itemView.transaction_account
         private val transactionAmountView: TextView = itemView.transaction_item_amount
         private val transactionTimeView: TextView = itemView.transaction_item_time
         private val transactionDescriptionView: TextView = itemView.transaction_item_description
+        private val transactionIcon: ImageView = itemView.transaction_item_icon
 
         fun bind(transaction: Transaction) {
-//            transactionAccountView.text = transaction.account
             transactionAmountView.text = transaction.amount
             transactionTimeView.text = transaction.date
-            transactionDescriptionView.text = transaction.terminal
+            transactionDescriptionView.text = transaction.getShortTerminalName()
+            val icon = transaction.getIcon()
+            transactionIcon.setImageDrawable(context.getDrawable(icon.drawableId))
+            transactionIcon.setBackgroundColor(ContextCompat.getColor(context, icon.colorId))
         }
     }
 
-    inner class BalanceHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BalanceHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val balanceDollarView: TextView = itemView.balance_dollar_view
         private val balanceCentView: TextView = itemView.balance_cent_view
         private val balanceCurrencyView: TextView = itemView.balance_currency_view
         private val balanceAccountView: TextView = itemView.balance_account_view
 
-        fun bind() {
-            balanceDollarView.text = "1,093"
-            balanceCentView.text = "99"
+        fun bind(account: Account) {
+            val amount = account.getAmountAsDouble()
+            val amountInt = floor(amount).toInt()
+            balanceDollarView.text = amountInt.toString()
+            balanceCentView.text = round((amount - amountInt) * 100).toInt().toString()
             balanceCurrencyView.text = "$"
-            balanceAccountView.text = "FLEX"
+            balanceAccountView.text = account.name
         }
     }
 }

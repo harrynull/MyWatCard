@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.login_dialog.view.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.view.WindowManager
-import androidx.appcompat.widget.Toolbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_toolbar)
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // TODO: Change this
         if (getPreferences("account").getString("username", "") == "") {
             // construct view
             val dialog = this.layoutInflater.inflate(R.layout.login_dialog, null)
@@ -67,29 +68,22 @@ class MainActivity : AppCompatActivity() {
             dialogBuilder.create().show()
             return
         }
+
+
         val accountDatabase = getPreferences("account")
         val watcard = WatCard(accountDatabase.getString("username", "")!!, accountDatabase.getString("password", "")!!)
         Thread {
             watcard.login()
             watcard.fetch()
-            var logStr = ""
-            logStr += "LOG: \n"
-            for (account in watcard.accounts!!) {
-                if (account.amount != "$0.00")
-                    logStr += "${account.name}: ${account.getAmountAsDouble()}\n"
-            }
             runOnUiThread {
-                val itemDecorator = DividerItemDecoration(
-                    this,
-                    DividerItemDecoration.VERTICAL
-                )
+                val itemDecorator = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
                 itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider)!!)
                 transaction_recycler.layoutManager = LinearLayoutManager(
                     this,
                     LinearLayoutManager.VERTICAL,
                     false
                 )
-                transaction_recycler.adapter = TransactionListAdapter(watcard.transactions)
+                transaction_recycler.adapter = WatCardListAdapter(this, watcard)
                 transaction_recycler.addItemDecoration(itemDecorator)
             }
         }.start()

@@ -101,7 +101,7 @@ class WatCard(val account: String, val PIN: String) {
         sdf.timeZone = TimeZone.getTimeZone("America/Toronto")
 
         // Fetch Transaction information.
-        val url =String.format(TRANSACTION, sdf.format(from), sdf.format(to))
+        val url = String.format(TRANSACTION, sdf.format(from), sdf.format(to))
         val response = client.newCall(Request.Builder().url(url).build())
             .execute().body
         val responseStr = response?.byteString()?.utf8()?.replace("\r","")?.replace("\n", "")
@@ -112,7 +112,7 @@ class WatCard(val account: String, val PIN: String) {
 
         transactions = transactionsData.map {
             val values = it.groupValues
-            Transaction(values[1], values[2], values[3], values[4], values[5], values[6])
+            Transaction(this, values[1], values[2], values[3], values[4], values[5], values[6])
         }.toList()
 
         response.close()
