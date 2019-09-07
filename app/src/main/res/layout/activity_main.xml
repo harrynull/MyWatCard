@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/transaction_swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/transaction_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10dp"
+                android:drawSelectorOnTop="false"
+                android:layoutAnimation="@anim/layout_swipe_in"
+                android:nestedScrollingEnabled="true"
+                android:paddingBottom="7dp"
+                android:paddingEnd="7dp"
+                android:paddingStart="7dp"
+                android:paddingTop="7dp"
+                android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</android.support.constraint.ConstraintLayout>
