@@ -1,6 +1,7 @@
 package tech.harrynull.mywatcard
 
 import android.content.Context
+import android.graphics.PorterDuff
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -64,11 +65,11 @@ class WatCardListAdapter(private val context: Context, private val watcard: WatC
 
         fun bind(transaction: Transaction) {
             transactionAmountView.text = transaction.amount
-            transactionTimeView.text = transaction.date
+            transactionTimeView.text = transaction.getDisplayDate()
             transactionDescriptionView.text = transaction.getShortTerminalName()
             val icon = transaction.getIcon()
             transactionIcon.setImageDrawable(context.getDrawable(icon.drawableId))
-            transactionIcon.setBackgroundColor(ContextCompat.getColor(context, icon.colorId))
+            transactionIcon.background.setColorFilter(ContextCompat.getColor(context, icon.colorId), PorterDuff.Mode.MULTIPLY)
         }
     }
 

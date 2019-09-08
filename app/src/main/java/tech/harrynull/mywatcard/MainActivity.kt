@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.login_dialog.view.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.view.WindowManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
