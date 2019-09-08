@@ -22,6 +22,16 @@ class WatCard(val account: String, val PIN: String) {
 
     fun findAccount(number: String) : Account? = accounts?.find { it.number==number }
 
+    fun getFlexibleAccount() : Account {
+        val flexAccounts = accounts?.filter { it.name.contains("FLEX") }!!
+        return flexAccounts.find { it.getAmountAsDouble() != 0.0 } ?: flexAccounts.first()
+    }
+
+    fun getMealPlanAccount() : Account {
+        val mealAccounts = accounts?.filter { it.name == "RESIDENCE PLAN" || it.name.contains("MEAL") || it.name.contains("MP") }!!
+        return mealAccounts.find { it.getAmountAsDouble() != 0.0 } ?: mealAccounts.first()
+    }
+
     fun login() {
         // Build the HTTP client
         val cookieManager = CookieManager()

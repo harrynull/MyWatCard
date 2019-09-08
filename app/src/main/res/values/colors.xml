@@ -10,5 +10,5 @@
     <color name="icon_tint">#b3000000</color>
     <color name="shadow_color">#15000000</color>
     <color name="divider_color">#00000000</color>
-
+    <color name="food">#8178D615</color>
 </resources>

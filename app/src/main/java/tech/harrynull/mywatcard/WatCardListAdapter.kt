@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.balance_header.view.*
 import kotlinx.android.synthetic.main.transaction_item.view.*
+import org.w3c.dom.Text
 import kotlin.math.floor
 import kotlin.math.round
 
@@ -48,7 +49,7 @@ class WatCardListAdapter(private val context: Context, private val watcard: WatC
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TransactionHolder -> holder.bind(watcard.transactions!![position - 1])
-            is BalanceHolder -> holder.bind(watcard.accounts!![0])
+            is BalanceHolder -> holder.bind(watcard.getFlexibleAccount(), watcard.getMealPlanAccount())
             else -> {
                 //
             }
@@ -78,14 +79,20 @@ class WatCardListAdapter(private val context: Context, private val watcard: WatC
         private val balanceCentView: TextView = itemView.balance_cent_view
         private val balanceCurrencyView: TextView = itemView.balance_currency_view
         private val balanceAccountView: TextView = itemView.balance_account_view
+        private val balanceFlexDollarAmountView: TextView = itemView.balance_1
+        private val balanceMealPlanAmountView: TextView = itemView.balance_2
 
-        fun bind(account: Account) {
-            val amount = account.getAmountAsDouble()
+        fun bind(flex: Account, meal: Account) {
+            val amountFlex = flex.getAmountAsDouble()
+            val amountMeal = meal.getAmountAsDouble()
+            val amount = amountFlex + amountMeal
             val amountInt = floor(amount).toInt()
             balanceDollarView.text = amountInt.toString()
             balanceCentView.text = round((amount - amountInt) * 100).toInt().toString()
             balanceCurrencyView.text = "$"
-            balanceAccountView.text = account.name
+            // balanceAccountView.text = amountFlex.toString()
+            balanceFlexDollarAmountView.text = amountFlex.toString()
+            balanceMealPlanAmountView.text = amountMeal.toString()
         }
     }
 }
