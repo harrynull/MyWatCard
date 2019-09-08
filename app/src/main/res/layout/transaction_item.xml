@@ -60,10 +60,11 @@
             android:layout_marginEnd="16dp"
             android:textSize="16sp"
             android:gravity="end"
+            android:fontFamily="@font/gotham_narrow_book"
             android:textColor="@color/primary_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="-CA$ 2.00"/>
+            tools:text="-$ 2.00"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

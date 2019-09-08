@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyWatCard</string>
+    <string name="app_name">My WatCard</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
 </resources>
