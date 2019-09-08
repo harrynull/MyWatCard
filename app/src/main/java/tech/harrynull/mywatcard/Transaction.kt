@@ -4,7 +4,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val MILLIS_PER_DAY = 86400000L
-val ICON_MAP = mapOf("FS-" to IconInfo(R.drawable.ic_restaurant_menu_black_24dp, R.color.food))
+val ICON_MAP = mapOf(
+    "FS-" to IconInfo(R.drawable.ic_restaurant_menu_black_24dp, R.color.icon_background),
+    "LAUNDRY" to IconInfo(R.drawable.ic_local_laundry_service_black_24dp, R.color.icon_background),
+    "W PRINT" to IconInfo(R.drawable.ic_print_black_24dp, R.color.icon_background)
+)
+
+
 val DEFAULT_ICON = IconInfo(R.drawable.ic_dehaze_black_24dp, R.color.icon_background)
 val DATE_PARSER = SimpleDateFormat("MM/dd/yyyy h:mm:ss a", Locale.US)
 val DATE_FORMATTER_TIME = SimpleDateFormat("HH:mm", Locale.US)
