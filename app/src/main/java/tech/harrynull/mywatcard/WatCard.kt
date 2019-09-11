@@ -38,6 +38,7 @@ class WatCard(val account: String, val PIN: String) {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
         client = OkHttpClient.Builder()
             .cookieJar(JavaNetCookieJar(cookieManager))
+            .addInterceptor(UAInjector())
             .build()
 
         // GET to obtain the RequestVerificationToken.
