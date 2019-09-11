@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.login_dialog.view.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import android.view.WindowManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,9 +49,45 @@ class MainActivity : AppCompatActivity() {
         edit.apply()
     }
 
+    fun showSnackBar(view: View, msg: String, colorRed: Boolean) {
+        val snackBar = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+        if (colorRed) snackBar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.warningColor))
+        else snackBar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+        snackBar.show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        when (item.itemId) {
+            R.id.action_refresh -> {
+                transaction_swipe_refresh_layout.isRefreshing = true
+                onRefreshListener.onRefresh()
+                return true
+            }
+            else ->
+                return super.onOptionsItemSelected(item)
+        }
+    }
+
+    lateinit var watcard: WatCard
+
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        Thread {
+            try {
+                watcard.fetch()
+            } catch (e: Exception) {
+                showSnackBar(coordinator_layout, e.message ?: "Unknown error occurred", true)
+                e.printStackTrace()
+            }
+            runOnUiThread {
+                transaction_recycler.adapter?.notifyDataSetChanged()
+                transaction_swipe_refresh_layout.isRefreshing = false
+            }
+        }.start()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,10 +113,17 @@ class MainActivity : AppCompatActivity() {
 
 
         val accountDatabase = getPreferences("account")
-        val watcard = WatCard(accountDatabase.getString("username", "")!!, accountDatabase.getString("password", "")!!)
+        watcard = WatCard(accountDatabase.getString("username", "")!!, accountDatabase.getString("password", "")!!)
+
+        transaction_swipe_refresh_layout.isRefreshing = true
         Thread {
-            watcard.login()
-            watcard.fetch()
+            try{
+                watcard.login()
+                watcard.fetch()
+            } catch(e: Exception) {
+                showSnackBar(coordinator_layout, e.message ?: "Unknown error occurred", true)
+                e.printStackTrace()
+            }
             runOnUiThread {
                 val itemDecorator = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
                 itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider)!!)
@@ -87,7 +134,10 @@ class MainActivity : AppCompatActivity() {
                 )
                 transaction_recycler.adapter = WatCardListAdapter(this, watcard)
                 transaction_recycler.addItemDecoration(itemDecorator)
+                transaction_swipe_refresh_layout.isRefreshing = false
             }
         }.start()
+
+        transaction_swipe_refresh_layout.setOnRefreshListener(onRefreshListener)
     }
 }

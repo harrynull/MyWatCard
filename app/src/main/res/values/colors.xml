@@ -3,6 +3,7 @@
     <color name="colorPrimary">#fafafa</color>
     <color name="colorPrimaryDark">#d3fafafa</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="warningColor">#D81B60</color>
     <color name="card_background">#FFFFFF</color>
     <color name="primary_text_color">#d3000000</color>
     <color name="secondary_text_color">#99000000</color>
